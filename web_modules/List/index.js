@@ -26,12 +26,18 @@ export default class List extends Component {
       this.props.onChange(value)
     };
 
+    filterName = (item) => {
+        return (item.name &&
+            item.name.toLowerCase().search(this.state.inputValue.toLowerCase())!=-1);
+    };
+
     render() {
 
       const {
         title,
         items,
         onChange,
+        autoFilter,
       } = this.props
 
       const onChangeHandler = (onChange) ? debounce(onChange,30000) : this.onChangeHandler
