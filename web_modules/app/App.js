@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import List from "List";
+import consts from "./consts";
 
 // const artists = [
 //   {name:"Bob Marley"},
@@ -22,11 +23,8 @@ export default class App extends Component {
     artists:[]
   };
 
-  componentDidMount(){
-    console.log("")
-
-    const url = 'https://api.spotify.com/v1/search?q=tania*&type=artist';
-    fetch(url).then((response) => {
+  fetchArtist(name){
+    fetch(consts.api.endpoints.getSearch(name, "artist")).then((response) => {
       response.json().then((data) => {
         if (!data.error) {
           console.log(data)
@@ -34,8 +32,16 @@ export default class App extends Component {
         };
       })
     })
-
   }
+
+  onChangeHandler(value){
+    console.log("value ", value)
+  }
+
+  componentDidMount(){
+    this.fetchArtist("Muse");
+  }
+
   render() {
     return (
       <div>
