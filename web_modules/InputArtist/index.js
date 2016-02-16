@@ -5,14 +5,27 @@ import InputList from "InputList";
 
 import styles from "./index.css";
 
+import {connect} from "react-redux"
+import {get as getArtists} from "app/reducers/artists"
+
 export default class InputArtist extends Component {
+
+  @connect(
+    (state) => ({
+      artists: state.artists
+    }),
+    (dispatch) => ({
+      getArtists: (value) => dispatch(getArtists(value)),
+    })
+  )
 
   static contextTypes = {
       router: PropTypes.object,
   };
 
-  state = {
-    artists: null,
+  static propTypes = {
+    artists : PropTypes.object,
+    getArtists: PropTypes.func,
   };
 
   fetchArtist(name){
@@ -23,12 +36,21 @@ export default class InputArtist extends Component {
     });
   };
 
+
+
+
+
+
+
   onInputArtistChange = (value) => {
-      this.fetchArtist(value);
+      //this.fetchArtist(value);
+      //this.props.getArtists();
+      this.props.artists.results;
+
   };
 
   selectArtist = (item) => {
-      this.context.router.push(`/artist/${item.id}/${item.name}`)
+      this.context.router.push(`/artist/${item.id}`)
   };
 
   render() {

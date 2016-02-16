@@ -4,18 +4,43 @@ import consts from "app/consts"
 
 import ItemDetails from "ItemDetails"
 
+import {connect} from "react-redux"
+import {get as getArtist} from "app/reducers/artist"
+
+@connect(
+    (state) => ({
+      artist: state.artist
+    }),
+    (dispatch) => ({
+      getArtist: (value) => dispatch(getArtist(value)),
+    })
+  )
+
+
 export default class PageArtist extends Component {
 
   static propTypes = {
       params: PropTypes.shape({
         artistId:PropTypes.string,
-        artistName:PropTypes.string,
       }),
+      artist : PropTypes.object,
+      getArtist: PropTypes.func,
   };
 
   static defaultProps = {
       params: {},
+      artist : null,
+      getArtist : () => {}
   };
+
+  ComponentDidMount(){
+    const {
+      params,
+      getArtist,
+    } = this.props
+
+    if (params.artistId) getArtist(params.artistId)
+  }
 
   render() {
     const {
